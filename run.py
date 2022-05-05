@@ -6,5 +6,5 @@ from game import Game
 a = alice.Player()
 b = bob.Player()
 g = Game(a, b)
-w = g.run()
-print(w)
+r = g.run()
+print(r)

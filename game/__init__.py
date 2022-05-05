@@ -1,3 +1,5 @@
+from collections import namedtuple
+Result = namedtuple('Result', ['winner','loser'])
 
 def _rock(opponent):
     if opponent == 'rock':
@@ -47,5 +49,5 @@ class Game:
         for _ in range(3):
             self._turn()
         if self._scores[0] >= 2:
-            return self._players[0]
-        return self._players[1]    
+            return Result(*self._players)
+        return Result(*self._players[::-1])    
