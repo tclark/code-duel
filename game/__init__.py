@@ -1,4 +1,6 @@
 from collections import namedtuple
+
+NAME = 'Rock Paper Scissors'
 Result = namedtuple('Result', ['winner','loser'])
 
 def _rock(opponent):
