@@ -1,17 +1,39 @@
 #! /usr/bin/env python3
+""" Runs a single-elimination tournament of a
+game implemented in the game module. Competitors
+are obtained from submodules of the player module.
+It's expected that users will sustitute in
+individual player modules supplied by competitors,
+and the game module can be swapped out with versions
+for different games. There are a few requirements.
+  A game module shall provide
+    NAME - a string indicating the game's name
+    Game - a class implementing the game, including
+      an __init__() that takes two Player instances
 
+      a run() method that implements the game and
+      returns a Result orderedtuple with the winner
+      and loser
+"""
 from players import player_modules
 from game import Game, NAME
 from random import randint, shuffle
 
 
 def insert_bye(player_list):
+    """ If there are an odd number of players in player_list,
+    insert None somewhere to indicate that one of the players
+    will get a bye.
+    """
     if len(player_list) % 2 == 1:
         # Stick a None in there to set up a bye
         player_list.insert(randint(0, len(player_list)), None)
 
 
 def handle_bye(p1, p2):
+    """ If either p1 or p2 is None, then the other gets a bye
+    and is returned to immediately advance to the next round.
+    """
     if p1 is None:
         winner = p2
     else:
@@ -20,13 +42,16 @@ def handle_bye(p1, p2):
     return winner
 
 
-def play_round(active_players, rnd):
-    print(f'\nRound {rnd}')
+def play_round(active_players):
+    """ Pick pairs of Player instances from active players, set up
+    and run the Game, report the results, and return a list of Players
+    to advance to the next round.
+    """
     if len(active_players) == 2:
         print('FINAL ROUND')
-    advances = []    
-    while active_players: 
-        insert_bye(active_players)        
+    advances = []
+    while active_players:
+        insert_bye(active_players)
         p1 = active_players.pop()
         p2 = active_players.pop()
         if p1 is None or p2 is None:
@@ -37,19 +62,20 @@ def play_round(active_players, rnd):
             result = g.run()
             print(f'{result.winner} advances\n')
             advances.append(result.winner)
-    return advances[::-1]        
-            
+    return advances[::-1]
 
-players = [p.Player() for p in player_modules]
-shuffle(players)
-tournament_round = 1
 
-print(f'Playing: {NAME}')
-print('The players are:')
-for p in players:
-    print(f'  {p}')
-while len(players) > 1:
-    players = play_round(players, tournament_round)
-    tournament_round += 1
-print(f'Final winner: {players[0]}')
-    
+if __name__ == '__main__':
+    players = [p.Player() for p in player_modules]
+    shuffle(players)
+    tournament_round = 1
+
+    print(f'Playing: {NAME}')
+    print('The players are:')
+    for p in players:
+        print(f'  {p}')
+    while len(players) > 1:
+        print(f'\nRound {tournament_round}')
+        players = play_round(players)
+        tournament_round += 1
+    print(f'Final winner: {players[0]}')
