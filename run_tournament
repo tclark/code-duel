@@ -14,6 +14,11 @@ for different games. There are a few requirements.
       a run() method that implements the game and
       returns a Result orderedtuple with the winner
       and loser
+  A players module shall provide
+    player_modules - an iterable that lists all of the player modules
+  An indivdual player module provides a Player class. The specifics of 
+  the class depend on the game, but it should include a __str__() method
+  that returns the player's name.
 """
 from players import player_modules
 from game import Game, NAME

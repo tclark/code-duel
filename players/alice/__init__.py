@@ -1,5 +1,6 @@
 import random
 
+
 class Player:
     def __init__(self):
         self.player_name = __name__.split('.')[-1]
