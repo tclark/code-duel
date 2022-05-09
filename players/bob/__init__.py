@@ -8,3 +8,9 @@ class Player:
 
     def play(self):
         return 'rock'
+
+    def notify(self, opponent_throw):
+        pass
+
+    def start_game(self):
+        pass

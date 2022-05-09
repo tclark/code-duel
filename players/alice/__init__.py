@@ -10,3 +10,9 @@ class Player:
 
     def play(self):
         return random.choice(('rock', 'paper', 'scissors'))
+
+    def notify(self, opponent_throw):
+        pass
+
+    def start_game(self):
+        pass
